@@ -11,12 +11,82 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+
+
+
+
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  password    String
   refreshToken String?
+  role        Role      @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  enrollments Enrollment[]
+  progress    Progress[]
+  courses     Course[]
+}
+
+model Course {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  thumbnail   String?
+  price       Float?
+  createdAt   DateTime   @default(now())
+
+  instructorId String
+  instructor   User      @relation(fields: [instructorId], references: [id])
+
+  lessons     Lesson[]
+  enrollments Enrollment[]
+}
+
+model Lesson {
+  id        String   @id @default(uuid())
+  title     String
+  videoUrl  String
+  position  Int
   createdAt DateTime @default(now())
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  progress Progress[]
+}
+
+model Enrollment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  userId   String
+  courseId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
+}
+
+model Progress {
+  id        String   @id @default(uuid())
+  completed Boolean  @default(false)
   updatedAt DateTime @updatedAt
+
+  userId   String
+  lessonId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
 }
