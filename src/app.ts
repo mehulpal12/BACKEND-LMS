@@ -2,7 +2,8 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./middlewares/error.middleware";
-import authRouter from "./controllers/auth/auth.route.js";
+import authRouter from "./modules/auth/auth.route.js";
+import courseRouter from "./modules/course/course.route.js";
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +24,7 @@ app.get("/health-check", (req: Request, res: Response) => {
   });
 });
 app.use("/api/auth", authRouter);
+app.use("/api/course", courseRouter);
 
 app.use(errorHandler);
 

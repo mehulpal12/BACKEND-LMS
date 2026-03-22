@@ -3,6 +3,7 @@ import { catchAsync } from "../../utils/catchAsync.js";
 import { loginUserSchema, registerUserSchema } from "./auth.schema.js";
 import { getUserById, loginUser, registerUser } from "./auth.service.js";
 
+
 export const register = catchAsync(async (req: Request, res: Response) => {
   const data = registerUserSchema.parse(req.body);
   const result = await registerUser(data.name, data.email, data.password);
