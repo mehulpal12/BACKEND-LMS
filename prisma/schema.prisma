@@ -34,6 +34,7 @@ model User {
   enrollments Enrollment[]
   progress    Progress[]
   courses     Course[]
+  payments    Payment[]
 }
 
 model Course {
@@ -49,6 +50,7 @@ model Course {
 
   lessons     Lesson[]
   enrollments Enrollment[]
+  payments    Payment[]
 }
 
 model Lesson {
@@ -62,7 +64,7 @@ model Lesson {
   course   Course @relation(fields: [courseId], references: [id])
 
   progress Progress[]
-}
+} 
 
 model Enrollment {
   id        String   @id @default(uuid())
@@ -89,4 +91,24 @@ model Progress {
   lesson Lesson @relation(fields: [lessonId], references: [id])
 
   @@unique([userId, lessonId])
+}
+
+enum PaymentStatus {
+  SUCCESS
+  FAILED
+  PENDING
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  userId    String
+  courseId  String
+  amount    Float
+  status    PaymentStatus
+  createdAt DateTime      @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId]) 
 }
