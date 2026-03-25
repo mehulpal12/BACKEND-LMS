@@ -12,24 +12,22 @@ datasource db {
   provider = "postgresql"
 }
 
-
-
-
-
 enum Role {
   USER
   ADMIN
 }
 
 model User {
-  id          String    @id @default(uuid())
-  name        String
-  email       String    @unique
-  password    String
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String?
+  googleId     String?  @unique
+  avatar       String?
   refreshToken String?
-  role        Role      @default(USER)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   enrollments Enrollment[]
   progress    Progress[]
@@ -38,15 +36,15 @@ model User {
 }
 
 model Course {
-  id          String     @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   thumbnail   String?
   price       Float?
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime @default(now())
 
   instructorId String
-  instructor   User      @relation(fields: [instructorId], references: [id])
+  instructor   User   @relation(fields: [instructorId], references: [id])
 
   lessons     Lesson[]
   enrollments Enrollment[]
@@ -64,7 +62,7 @@ model Lesson {
   course   Course @relation(fields: [courseId], references: [id])
 
   progress Progress[]
-} 
+}
 
 model Enrollment {
   id        String   @id @default(uuid())
@@ -110,5 +108,16 @@ model Payment {
   user   User   @relation(fields: [userId], references: [id])
   course Course @relation(fields: [courseId], references: [id])
 
-  @@unique([userId, courseId]) 
+  @@unique([userId, courseId])
+}
+
+model GoogleIntegration {
+  id             String   @id @default(uuid())
+  organizationId String   @unique
+  googleEmail    String
+  accessToken    String
+  refreshToken   String
+  expiryDate     DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

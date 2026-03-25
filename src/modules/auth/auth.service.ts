@@ -3,6 +3,7 @@ import { ApiError } from "../../utils/apiError.js";
 import { comparePassword, hashPassword } from "../../utils/hash.js";
 import { generateToken } from "../../utils/jwt.js";
 
+
 export const registerUser = async (
   name: string,
   email: string,
@@ -54,7 +55,7 @@ export const loginUser = async (email: string, password: string) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  const isPasswordCorrect = await comparePassword(password, user.password);
+  const isPasswordCorrect = await comparePassword(password, user.password!);
 
   if (!isPasswordCorrect) {
     throw new ApiError(401, "Invalid credentials");
