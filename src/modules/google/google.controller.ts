@@ -57,9 +57,6 @@ export const googleCallback = catchAsync(
       },
     });
 
-    res.status(200).json({
-      success: true,
-      data: "Google connected successfully",
-    });
+    res.redirect("http://localhost:3000/dashboard");
   }
 );

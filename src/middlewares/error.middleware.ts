@@ -18,7 +18,7 @@ export const errorHandler = (
 
   // Zod validation error
   if (err instanceof ZodError) {
-    // console.log(err);
+    console.error("ZOD VALIDATION ERROR:", err.message, err.issues);
     statusCode = 400;
     message = err.issues.map((e) => e.message).join(", ");
   }
