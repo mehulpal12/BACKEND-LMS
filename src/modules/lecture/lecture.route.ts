@@ -9,14 +9,20 @@ import { getSecureVideo } from "./video.controller.js";
 const router = express.Router();
 
 router.route("/").post(authMiddleware, roleMiddleware("ADMIN"), upload.single("video"), create);
-router.route("/:courseId").get(authMiddleware,checkEnrollment,getByCourse); // get all lesson by the course id 
-router.route("/:courseId/:id").get(authMiddleware,checkEnrollment,getById);// get lesson by single id
+router.route("/:courseId").get(
+  // authMiddleware,
+  // checkEnrollment,
+  getByCourse); // get all lesson by the course id 
+router.route("/:courseId/:id").get(
+  // authMiddleware,
+  // checkEnrollment,
+  getById);// get lesson by single id
 router.route("/:courseId/:id").put(authMiddleware,checkEnrollment, roleMiddleware("ADMIN"), update); // update lesson by single id
 router.route("/:courseId/:id").delete(authMiddleware,checkEnrollment, roleMiddleware("ADMIN"), remove); // delete lesson by single id
 router.get(
   "/:courseId/:lessonId/video",
-  authMiddleware,
-  checkEnrollment,
+  // authMiddleware,
+  // checkEnrollment,
   getSecureVideo
 );
 export default router;

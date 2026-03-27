@@ -40,7 +40,11 @@ export const getLessonById = async (lessonId: string) => {
     where: { id: lessonId },
     include: {
       course: {
-        select: { id: true, title: true },
+        include: {
+          lessons: {
+            orderBy: { position: "asc" },
+          },
+        },
       },
     },
   });
