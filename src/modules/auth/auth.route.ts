@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
-router.route("/google").post(googleLogin);
+router.route("/google/callback").post(googleLogin);
 router.route("/me").get(authMiddleware, getMe);
 
 export default router;
