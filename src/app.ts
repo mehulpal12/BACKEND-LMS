@@ -7,10 +7,10 @@ import courseRouter from "./modules/course/course.route.js";
 import lectureRouter from "./modules/lecture/lecture.route.js";
 import progressRouter from "./modules/progress/progress.route.js";
 import enrollmentRouter from "./modules/enrollment/enrollment.routes.js";
-import paymentRouter from "./modules/payment/payment.route.js";
 import googleRouter from "./modules/google/google.route.js";
 import dashboardRouter from "./modules/dashboard/dashboard.route.js";
 const app = express();
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -34,9 +34,9 @@ app.use("/api/course", courseRouter);
 app.use("/api/lecture", lectureRouter);
 app.use("/api/progress", progressRouter);
 app.use("/api/enrollment", enrollmentRouter);
-app.use("/api/payment", paymentRouter);
 app.use("/api/google", googleRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use(errorHandler);
+
 
 export default app;
